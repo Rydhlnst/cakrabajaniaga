@@ -18,21 +18,21 @@ export function SiteHeader() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-stone-200/70 bg-stone-50/85 backdrop-blur-md">
-      <div className="mx-auto flex max-w-[80rem] items-center justify-between px-4 py-3 sm:px-5 sm:py-4">
-        <Link href="/#top" className="flex items-center gap-2 sm:gap-2.5">
+      <div className="mx-auto flex max-w-[80rem] items-center justify-between gap-2 px-4 py-3 sm:px-5 sm:py-4">
+        <Link href="/#top" className="flex min-w-0 items-center gap-2 sm:gap-2.5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/site/logo.png" alt="CBN logo" className="h-8 w-auto sm:h-9" />
-          <span className="leading-tight">
-            <span className="block font-display text-base font-semibold tracking-tight text-stone-900">
+          <img src="/site/logo.png" alt="CBN logo" className="h-8 w-auto shrink-0 sm:h-9" />
+          <span className="min-w-0 leading-tight">
+            <span className="block truncate font-display text-sm font-semibold tracking-tight text-stone-900 sm:text-base">
               Cakra Baja Niaga
             </span>
-            <span className="block text-[11px] uppercase tracking-[0.18em] text-stone-500">
+            <span className="hidden text-[11px] uppercase tracking-[0.18em] text-stone-500 sm:block">
               Premium Sweet Potato Export
             </span>
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden shrink-0 items-center gap-8 md:flex">
           {navLinks.map((item) => (
             <Link
               key={item.href}
@@ -53,11 +53,11 @@ export function SiteHeader() {
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="grid h-11 w-11 place-items-center text-stone-900 md:hidden"
+          className="grid h-10 w-10 shrink-0 place-items-center text-stone-900 md:hidden"
           aria-label="Menu"
           aria-expanded={open}
         >
-          {open ? <XIcon className="h-6 w-6" /> : <MenuIcon className="h-6 w-6" />}
+          {open ? <XIcon className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}
         </button>
       </div>
 
