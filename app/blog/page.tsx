@@ -30,7 +30,7 @@ export default async function BlogPage({
   return (
     <>
       {/* Header band */}
-      <section className="border-b border-border bg-secondary/40">
+      <section className="border-b border-border bg-secondary/40 pt-4">
         <div className="container-page py-20 sm:py-24">
           <p className="eyebrow">Insights &amp; News</p>
           <h1 className="mt-4 max-w-3xl font-heading text-4xl font-semibold tracking-tight text-balance sm:text-5xl">

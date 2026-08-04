@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 export default function GalleriesPage() {
   return (
     <>
-      <section className="border-b border-border bg-secondary/40">
+      <section className="border-b border-border bg-secondary/40 pt-4">
         <div className="container-page py-20 sm:py-24">
           <p className="eyebrow">Media &amp; Visuals</p>
           <h1 className="mt-4 font-heading text-4xl font-semibold tracking-tight sm:text-5xl">

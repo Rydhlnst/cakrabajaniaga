@@ -90,7 +90,7 @@ Website: https://cakrabajaniaga.com`,
 
 export default function TosPage() {
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="min-h-screen bg-stone-50 pt-4">
       <section className="border-b border-stone-200 bg-white">
         <div className="mx-auto max-w-3xl px-4 py-16 sm:px-5 sm:py-24">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-amber-700 sm:text-sm">

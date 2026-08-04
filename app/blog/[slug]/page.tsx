@@ -55,7 +55,7 @@ export default async function ArticlePage({
   return (
     <article>
       {/* Hero */}
-      <header className="relative isolate overflow-hidden border-b border-border">
+      <header className="relative isolate overflow-hidden border-b border-border pt-4">
         {article.image ? (
           <>
             <Image
