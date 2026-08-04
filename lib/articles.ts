@@ -1,4 +1,4 @@
-import articlesData from "@/content/articles.json";
+import type { ArticleRecord } from "@/lib/db";
 
 export type Article = {
   slug: string;
@@ -9,24 +9,62 @@ export type Article = {
   markdown: string;
 };
 
-const articles = articlesData as Article[];
-
 export const PAGE_SIZE = 9;
 
-export function getAllArticles(): Article[] {
-  return articles;
+/**
+ * Load articles from NeonDB. Falls back to content/articles.json when
+ * DATABASE_URL is not set (local dev without a remote DB).
+ */
+async function loadArticles(): Promise<Article[]> {
+  if (process.env.DATABASE_URL) {
+    const { getAllArticlesFromDB } = await import("@/lib/db");
+    const rows = await getAllArticlesFromDB();
+    return rows.map(rowToArticle);
+  }
+
+  // Fallback: read from local JSON file
+  const articlesData = await import("@/content/articles.json");
+  return (articlesData as unknown as Article[]).map((a) => ({
+    slug: a.slug,
+    title: a.title,
+    description: a.description ?? null,
+    date: a.date ?? null,
+    image: a.image ?? null,
+    markdown: a.markdown,
+  }));
 }
 
-export function getArticle(slug: string): Article | undefined {
+/** Cache for the duration of a single request / render. */
+let cachedArticles: Article[] | null = null;
+
+/** Clear the in-memory cache so the next read fetches fresh data. */
+export function clearArticlesCache(): void {
+  cachedArticles = null;
+}
+
+async function getArticles(): Promise<Article[]> {
+  if (!cachedArticles) {
+    cachedArticles = await loadArticles();
+  }
+  return cachedArticles;
+}
+
+export async function getAllArticles(): Promise<Article[]> {
+  return getArticles();
+}
+
+export async function getArticle(slug: string): Promise<Article | undefined> {
+  const articles = await getArticles();
   return articles.find((a) => a.slug === slug);
 }
 
-export function getPagedArticles(page: number): {
+export async function getPagedArticles(page: number): Promise<{
   items: Article[];
   page: number;
   totalPages: number;
   total: number;
-} {
+}> {
+  const articles = await getArticles();
   const total = articles.length;
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const current = Math.min(Math.max(1, page), totalPages);
@@ -39,7 +77,8 @@ export function getPagedArticles(page: number): {
   };
 }
 
-export function getRelatedArticles(slug: string, count = 3): Article[] {
+export async function getRelatedArticles(slug: string, count = 3): Promise<Article[]> {
+  const articles = await getArticles();
   return articles.filter((a) => a.slug !== slug).slice(0, count);
 }
 
@@ -58,4 +97,15 @@ export function formatDate(date: string | null): string {
 export function readingTime(markdown: string): number {
   const words = markdown.trim().split(/\s+/).length;
   return Math.max(1, Math.round(words / 200));
+}
+
+function rowToArticle(row: ArticleRecord): Article {
+  return {
+    slug: row.slug,
+    title: row.title,
+    description: row.description ?? null,
+    date: row.date ?? null,
+    image: row.image ?? null,
+    markdown: row.markdown,
+  };
 }

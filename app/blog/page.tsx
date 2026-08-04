@@ -20,7 +20,7 @@ export default async function BlogPage({
 }) {
   const params = await searchParams;
   const page = Number.parseInt(params.page ?? "1", 10) || 1;
-  const { items, page: current, totalPages, total } = getPagedArticles(page);
+  const { items, page: current, totalPages, total } = await getPagedArticles(page);
 
   // On page 1, spotlight the newest article above the grid.
   const isFirstPage = current === 1;

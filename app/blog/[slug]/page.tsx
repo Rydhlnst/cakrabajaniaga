@@ -17,8 +17,9 @@ import { buttonVariants } from "@/components/ui/button";
 import { ArticleBody } from "@/components/article-body";
 import { ArticleCard } from "@/components/article-card";
 
-export function generateStaticParams() {
-  return getAllArticles().map((a) => ({ slug: a.slug }));
+export async function generateStaticParams() {
+  const articles = await getAllArticles();
+  return articles.map((a) => ({ slug: a.slug }));
 }
 
 export async function generateMetadata({
@@ -27,7 +28,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const article = getArticle(slug);
+  const article = await getArticle(slug);
   if (!article) return { title: "Article not found" };
   return {
     title: article.title,
@@ -47,10 +48,10 @@ export default async function ArticlePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const article = getArticle(slug);
+  const article = await getArticle(slug);
   if (!article) notFound();
 
-  const related = getRelatedArticles(slug, 3);
+  const related = await getRelatedArticles(slug, 3);
 
   return (
     <article>
