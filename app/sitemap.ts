@@ -1,9 +1,9 @@
 import type { MetadataRoute } from "next";
 import { site } from "@/lib/site";
+import { getAllArticles } from "@/lib/articles";
 
 const NOW = new Date().toISOString();
 
-/** Static pages with their own routes. */
 const staticPages: MetadataRoute.Sitemap = [
   {
     url: site.url,
@@ -37,24 +37,18 @@ const staticPages: MetadataRoute.Sitemap = [
   },
 ];
 
-async function getBlogArticlePages(): Promise<MetadataRoute.Sitemap> {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  let blogPages: MetadataRoute.Sitemap = [];
   try {
-    const { getAllArticles } = await import("@/lib/articles");
     const articles = await getAllArticles();
-
-    return articles.map((article) => ({
+    blogPages = articles.map((article) => ({
       url: `${site.url}/blog/${article.slug}`,
       lastModified: article.date ?? NOW,
       changeFrequency: "monthly" as const,
       priority: 0.8,
     }));
-  } catch {
-    // If DB/JSON read fails, return empty — static pages still get indexed.
-    return [];
+  } catch (err) {
+    console.error("[sitemap] Failed to load articles:", err);
   }
-}
-
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const blogPages = await getBlogArticlePages();
   return [...staticPages, ...blogPages];
 }
