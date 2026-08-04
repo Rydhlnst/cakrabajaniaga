@@ -36,7 +36,7 @@ const processIcons = [MapPinIcon, ShieldCheckIcon, TruckIcon, EarthIcon];
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-stone-50 pt-4 text-stone-900 selection:bg-amber-200">
+    <div className="min-h-screen bg-stone-50 pt-16 text-stone-900 selection:bg-amber-200">
       {/* ================= HERO ============================================ */}
       <section id="top" className="relative flex min-h-[100dvh] items-center overflow-hidden pt-16 sm:pt-20">
         <div className="absolute inset-0">
