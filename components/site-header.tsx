@@ -22,11 +22,11 @@ export function SiteHeader() {
         <Link href="/#top" className="flex shrink-0 items-center gap-2">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/site/logo.png" alt="CBN logo" className="h-8 w-auto sm:h-9" />
-          <span className="hidden leading-tight sm:block">
-            <span className="block font-display text-base font-semibold tracking-tight text-stone-900">
+          <span className="min-w-0 leading-tight">
+            <span className="block truncate font-display text-sm font-semibold tracking-tight text-stone-900 sm:text-base">
               Cakra Baja Niaga
             </span>
-            <span className="block text-[11px] uppercase tracking-[0.18em] text-stone-500">
+            <span className="hidden text-[11px] uppercase tracking-[0.18em] text-stone-500 sm:block">
               Premium Sweet Potato Export
             </span>
           </span>
