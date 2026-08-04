@@ -13,25 +13,34 @@ export const PAGE_SIZE = 9;
 
 /**
  * Load articles from NeonDB. Falls back to content/articles.json when
- * DATABASE_URL is not set (local dev without a remote DB).
+ * DATABASE_URL is not set or when NeonDB fails.
  */
 async function loadArticles(): Promise<Article[]> {
+  // Try NeonDB first
   if (process.env.DATABASE_URL) {
-    const { getAllArticlesFromDB } = await import("@/lib/db");
-    const rows = await getAllArticlesFromDB();
-    return rows.map(rowToArticle);
+    try {
+      const { getAllArticlesFromDB } = await import("@/lib/db");
+      const rows = await getAllArticlesFromDB();
+      if (rows.length > 0) return rows.map(rowToArticle);
+    } catch (err) {
+      console.warn("[articles] NeonDB failed, falling back to articles.json:", err);
+    }
   }
 
   // Fallback: read from local JSON file
-  const articlesData = await import("@/content/articles.json");
-  return (articlesData as unknown as Article[]).map((a) => ({
-    slug: a.slug,
-    title: a.title,
-    description: a.description ?? null,
-    date: a.date ?? null,
-    image: a.image ?? null,
-    markdown: a.markdown,
-  }));
+  try {
+    const articlesData = await import("@/content/articles.json");
+    return (articlesData as unknown as Article[]).map((a) => ({
+      slug: a.slug,
+      title: a.title,
+      description: a.description ?? null,
+      date: a.date ?? null,
+      image: a.image ?? null,
+      markdown: a.markdown,
+    }));
+  } catch {
+    return [];
+  }
 }
 
 /** Cache for the duration of a single request / render. */
