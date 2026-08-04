@@ -24,8 +24,6 @@ import {
   whyPoints,
 } from "@/lib/site";
 import { QuoteForm } from "@/components/quote-form";
-import { TosModal } from "@/components/tos-modal";
-import { PrivacyModal } from "@/components/privacy-modal";
 
 const productImages: Record<string, string> = {
   cilembu: "/site/cilembu.png",
@@ -347,9 +345,13 @@ export default function Home() {
       {/* ================= LEGAL LINKS ===================================== */}
       <div className="border-t border-stone-200 bg-stone-50">
         <div className="mx-auto flex max-w-[80rem] flex-wrap items-center justify-center gap-3 px-4 py-6 sm:gap-6 sm:px-5 sm:py-8">
-          <TosModal />
+          <Link href="/tos" className="text-xs text-stone-500 transition hover:text-stone-700 sm:text-sm">
+            Terms of Service
+          </Link>
           <span className="text-stone-300">|</span>
-          <PrivacyModal />
+          <Link href="/privacy" className="text-xs text-stone-500 transition hover:text-stone-700 sm:text-sm">
+            Privacy Policy
+          </Link>
         </div>
       </div>
     </div>

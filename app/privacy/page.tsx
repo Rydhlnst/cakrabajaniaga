@@ -1,15 +1,12 @@
-"use client";
+import type { Metadata } from "next";
 
-import * as React from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description:
+    "Privacy Policy for cakrabajaniaga.com — how PT Cakra Baja Niaga collects, uses, and protects your personal data.",
+};
 
-const privacyContent = [
+const sections = [
   {
     title: "1. Introduction",
     body: `PT Cakra Baja Niaga ("Company", "we", "us", or "our") operates the website cakrabajaniaga.com (the "Website"). This Privacy Policy explains how we collect, use, store, and protect personal data when you visit our Website or submit an inquiry through our contact/inquiry form.
@@ -142,34 +139,35 @@ Website: https://cakrabajaniaga.com`,
   },
 ];
 
-export function PrivacyModal() {
+export default function PrivacyPage() {
   return (
-    <Dialog>
-      <DialogTrigger className="text-xs text-stone-500 transition hover:text-stone-700 sm:text-sm">
-        Privacy Policy
-      </DialogTrigger>
-      <DialogContent className="max-h-[85vh] sm:max-w-2xl">
-        <DialogHeader>
-          <DialogTitle className="text-base sm:text-lg">
-            Privacy Policy
-          </DialogTitle>
-          <p className="text-xs text-muted-foreground">
-            Last updated: 03 August 2026
+    <div className="min-h-screen bg-stone-50">
+      <section className="border-b border-stone-200 bg-white">
+        <div className="mx-auto max-w-3xl px-4 py-16 sm:px-5 sm:py-24">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-amber-700 sm:text-sm">
+            Legal
           </p>
-        </DialogHeader>
-        <div className="max-h-[60vh] overflow-y-auto pr-2 text-sm leading-relaxed text-stone-600">
-          {privacyContent.map((section) => (
-            <div key={section.title} className="mb-5">
-              <h3 className="mb-1.5 font-display text-sm font-semibold text-stone-900">
+          <h1 className="mt-3 font-display text-3xl font-semibold tracking-tight text-stone-900 sm:text-4xl">
+            Privacy Policy
+          </h1>
+          <p className="mt-3 text-sm text-stone-500">Last updated: 03 August 2026</p>
+        </div>
+      </section>
+
+      <div className="mx-auto max-w-3xl px-4 py-12 sm:px-5 sm:py-16">
+        <div className="space-y-8">
+          {sections.map((section) => (
+            <div key={section.title}>
+              <h2 className="mb-2 font-display text-lg font-semibold text-stone-900">
                 {section.title}
-              </h3>
-              <p className="whitespace-pre-line text-[0.8rem] leading-relaxed">
+              </h2>
+              <p className="whitespace-pre-line text-sm leading-relaxed text-stone-600">
                 {section.body}
               </p>
             </div>
           ))}
         </div>
-      </DialogContent>
-    </Dialog>
+      </div>
+    </div>
   );
 }
