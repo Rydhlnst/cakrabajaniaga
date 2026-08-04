@@ -26,7 +26,7 @@ export function SiteHeader() {
             <span className="block truncate font-display text-sm font-semibold tracking-tight text-stone-900 sm:text-base">
               Cakra Baja Niaga
             </span>
-            <span className="hidden text-[11px] uppercase tracking-[0.18em] text-stone-500 sm:block">
+            <span className="block truncate text-[0.6rem] uppercase tracking-[0.15em] text-stone-500 sm:text-[11px] sm:tracking-[0.18em]">
               Premium Sweet Potato Export
             </span>
           </span>
