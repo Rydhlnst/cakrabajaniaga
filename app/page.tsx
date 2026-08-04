@@ -96,7 +96,7 @@ export default function Home() {
       </section>
 
       {/* ================= BUYER MARQUEE =================================== */}
-      <div className="border-y border-stone-200 bg-amber-700 py-3.5 text-amber-50">
+      <div className="overflow-hidden border-y border-stone-200 bg-amber-700 py-3.5 text-amber-50">
         <div className="flex w-max marquee-track gap-12 whitespace-nowrap pr-12">
           {[0, 1].map((half) => (
             <div key={half} className="flex gap-12">

@@ -12,7 +12,7 @@ const footerLinks = [
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-stone-200 bg-stone-100">
+    <footer className="overflow-hidden border-t border-stone-200 bg-stone-100">
       <div className="mx-auto flex max-w-[80rem] flex-col items-start justify-between gap-4 px-4 py-8 text-left sm:items-center sm:gap-6 sm:px-5 sm:py-10 sm:flex-row">
         <div className="flex items-center gap-2 sm:gap-2.5">
           <span className="grid h-7 w-7 place-items-center rounded-md bg-amber-700 text-amber-50 sm:h-8 sm:w-8">

@@ -53,9 +53,9 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("h-full antialiased", inter.variable, fraunces.variable, "font-sans")}
+      className={cn("h-full overflow-x-hidden antialiased", inter.variable, fraunces.variable, "font-sans")}
     >
-      <body className="flex min-h-full flex-col bg-background">
+      <body className="flex min-h-full flex-col overflow-x-hidden bg-background">
         <ThemeProvider
           attribute="class"
           defaultTheme="light"

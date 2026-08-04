@@ -17,7 +17,7 @@ export function SiteHeader() {
   const [open, setOpen] = React.useState(false);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-stone-200/70 bg-stone-50/85 backdrop-blur-md">
+    <header className="fixed inset-x-0 top-0 z-50 overflow-hidden border-b border-stone-200/70 bg-stone-50/85 backdrop-blur-md">
       <div className="mx-auto flex max-w-[80rem] items-center justify-between gap-2 px-4 py-3 sm:px-5 sm:py-4">
         <Link href="/#top" className="flex shrink-0 items-center gap-2">
           {/* eslint-disable-next-line @next/next/no-img-element */}
