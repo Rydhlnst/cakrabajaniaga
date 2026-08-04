@@ -19,14 +19,14 @@ export function SiteHeader() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-stone-200/70 bg-stone-50/85 backdrop-blur-md">
       <div className="mx-auto flex max-w-[80rem] items-center justify-between gap-2 px-4 py-3 sm:px-5 sm:py-4">
-        <Link href="/#top" className="flex min-w-0 items-center gap-2 sm:gap-2.5">
+        <Link href="/#top" className="flex shrink-0 items-center gap-2">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/site/logo.png" alt="CBN logo" className="h-8 w-auto shrink-0 sm:h-9" />
-          <span className="min-w-0 leading-tight">
-            <span className="block truncate font-display text-sm font-semibold tracking-tight text-stone-900 sm:text-base">
+          <img src="/site/logo.png" alt="CBN logo" className="h-8 w-auto sm:h-9" />
+          <span className="hidden leading-tight sm:block">
+            <span className="block font-display text-base font-semibold tracking-tight text-stone-900">
               Cakra Baja Niaga
             </span>
-            <span className="hidden text-[11px] uppercase tracking-[0.18em] text-stone-500 sm:block">
+            <span className="block text-[11px] uppercase tracking-[0.18em] text-stone-500">
               Premium Sweet Potato Export
             </span>
           </span>
@@ -64,13 +64,13 @@ export function SiteHeader() {
       {/* Mobile menu */}
       {open && (
         <nav className="border-t border-stone-200/70 bg-stone-50 md:hidden">
-          <div className="mx-auto flex max-w-[80rem] flex-col px-4 py-3">
+          <div className="mx-auto flex max-w-[80rem] flex-col px-4 py-2">
             {navLinks.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={() => setOpen(false)}
-                className="rounded-lg px-2 py-3 text-sm font-medium text-stone-700 transition hover:bg-stone-100 hover:text-stone-900"
+                className="rounded-lg px-3 py-3 text-sm font-medium text-stone-700 transition hover:bg-stone-100 hover:text-stone-900"
               >
                 {item.label}
               </Link>
