@@ -143,6 +143,18 @@ export default async function ArticlePage({
           </div>
         </section>
       ) : null}
+
+      <div className="container-page pb-16 pt-8 sm:pb-20 sm:pt-12">
+        <div className="border-t border-stone-200 pt-8">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-sm font-medium text-stone-600 transition hover:text-stone-900"
+          >
+            <ArrowLeftIcon className="h-4 w-4" />
+            Back to home
+          </Link>
+        </div>
+      </div>
     </article>
   );
 }

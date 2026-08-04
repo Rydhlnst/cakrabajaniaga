@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { PlayCircleIcon } from "lucide-react";
+import { ArrowLeftIcon, PlayCircleIcon } from "lucide-react";
 
 import { galleryVideos, sizingImages, site } from "@/lib/site";
 import { cn } from "@/lib/utils";
@@ -98,31 +98,20 @@ export default function GalleriesPage() {
               </figure>
             ))}
           </div>
-
-          <div className="mt-14 flex flex-col items-center gap-4 rounded-xl border border-border bg-card p-10 text-center">
-            <h3 className="font-heading text-xl font-semibold tracking-tight">
-              Want samples or the full spec sheet?
-            </h3>
-            <p className="max-w-lg text-sm text-muted-foreground">
-              Reach our export desk and we&rsquo;ll share sizing, packing, and pricing
-              tailored to your market.
-            </p>
-            <div className="mt-2 flex flex-wrap justify-center gap-3">
-              <Link href="/#quote" className={cn(buttonVariants({ size: "default" }))}>
-                Request a Quote
-              </Link>
-              <a
-                href={site.youtube}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={cn(buttonVariants({ variant: "outline", size: "default" }))}
-              >
-                Visit YouTube Channel
-              </a>
-            </div>
-          </div>
         </div>
       </section>
+
+      <div className="container-page pb-16 pt-8 sm:pb-20 sm:pt-12">
+        <div className="border-t border-stone-200 pt-8">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-sm font-medium text-stone-600 transition hover:text-stone-900"
+          >
+            <ArrowLeftIcon className="h-4 w-4" />
+            Back to home
+          </Link>
+        </div>
+      </div>
     </>
   );
 }

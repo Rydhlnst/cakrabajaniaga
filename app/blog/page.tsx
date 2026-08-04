@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRightIcon } from "lucide-react";
+import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
 
 import { formatDate, getPagedArticles, readingTime } from "@/lib/articles";
 import { ArticleCard } from "@/components/article-card";
@@ -96,6 +96,16 @@ export default async function BlogPage({
         </div>
 
         <BlogPagination page={current} totalPages={totalPages} />
+
+        <div className="mt-12 border-t border-stone-200 pt-8">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-sm font-medium text-stone-600 transition hover:text-stone-900"
+          >
+            <ArrowLeftIcon className="h-4 w-4" />
+            Back to home
+          </Link>
+        </div>
       </div>
     </>
   );
