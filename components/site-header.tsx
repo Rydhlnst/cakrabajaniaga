@@ -2,115 +2,89 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { MenuIcon } from "lucide-react";
+import { ArrowRightIcon, MenuIcon, XIcon } from "lucide-react";
 
-import { cn } from "@/lib/utils";
-import { nav, site } from "@/lib/site";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { BrandLogo } from "@/components/brand-logo";
-import { ModeToggle } from "@/components/mode-toggle";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+const navLinks = [
+  { label: "Products", href: "/#products" },
+  { label: "Why Indonesia", href: "/#why" },
+  { label: "About", href: "/#about" },
+  { label: "Blog", href: "/blog" },
+  { label: "Galleries", href: "/galleries" },
+  { label: "Contact", href: "/#contact" },
+];
 
 export function SiteHeader() {
   const [open, setOpen] = React.useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background">
-      <div className="container-page flex h-18 items-center justify-between gap-4">
-        <BrandLogo />
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-stone-200/70 bg-stone-50/85 backdrop-blur-md">
+      <div className="mx-auto flex max-w-[80rem] items-center justify-between px-4 py-3 sm:px-5 sm:py-4">
+        <Link href="/#top" className="flex items-center gap-2 sm:gap-2.5">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/site/logo.png" alt="CBN logo" className="h-8 w-auto sm:h-9" />
+          <span className="leading-tight">
+            <span className="block font-display text-base font-semibold tracking-tight text-stone-900">
+              Cakra Baja Niaga
+            </span>
+            <span className="block text-[11px] uppercase tracking-[0.18em] text-stone-500">
+              Premium Sweet Potato Export
+            </span>
+          </span>
+        </Link>
 
-        <nav className="hidden items-center gap-7 lg:flex xl:gap-9">
-          {nav.map((item) => (
+        <nav className="hidden items-center gap-8 md:flex">
+          {navLinks.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="group relative text-sm font-medium text-foreground/75 transition-colors hover:text-foreground"
+              className="text-sm font-medium text-stone-600 transition hover:text-stone-900"
             >
               {item.label}
-              <span className="absolute -bottom-1.5 left-0 h-px w-0 bg-brand transition-all duration-300 group-hover:w-full" />
             </Link>
           ))}
-        </nav>
-
-        <div className="flex items-center gap-2">
-          <ModeToggle className="hidden sm:inline-flex" />
           <Link
             href="/#quote"
-            className={cn(
-              buttonVariants({ variant: "brand", size: "sm" }),
-              "hidden md:inline-flex"
-            )}
+            className="inline-flex items-center gap-1.5 rounded-full bg-stone-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-stone-700"
           >
-            Request a Quote
+            Request a Quote <ArrowRightIcon className="h-4 w-4" />
           </Link>
+        </nav>
 
-          {/* Mobile menu */}
-          <Sheet open={open} onOpenChange={setOpen}>
-            <SheetTrigger
-              render={
-                <Button
-                  variant="outline"
-                  size="icon-sm"
-                  aria-label="Open menu"
-                  className="lg:hidden"
-                />
-              }
-            >
-              <MenuIcon />
-            </SheetTrigger>
-            <SheetContent side="right" className="flex w-[86%] max-w-sm flex-col p-0">
-              <SheetHeader className="border-b border-border p-6">
-                <SheetTitle className="text-left font-heading text-lg">Menu</SheetTitle>
-              </SheetHeader>
-              <div className="flex flex-col gap-0.5 p-3">
-                {nav.map((item) => (
-                  <SheetClose
-                    key={item.href}
-                    nativeButton={false}
-                    render={
-                      <Link
-                        href={item.href}
-                        className="rounded-sm px-4 py-3 text-sm font-medium text-foreground/90 transition-colors hover:bg-muted hover:text-foreground"
-                      >
-                        {item.label}
-                      </Link>
-                    }
-                  />
-                ))}
-              </div>
-              <div className="mt-auto flex flex-col gap-4 border-t border-border p-6">
-                <SheetClose
-                  nativeButton={false}
-                  render={
-                    <Link
-                      href="/#quote"
-                      className={cn(buttonVariants({ variant: "brand" }), "w-full")}
-                    >
-                      Request a Quote
-                    </Link>
-                  }
-                />
-                <div className="flex items-center justify-between">
-                  <a
-                    href={site.whatsappUrl}
-                    className="text-xs text-muted-foreground transition-colors hover:text-brand"
-                  >
-                    {site.whatsapp}
-                  </a>
-                  <ModeToggle />
-                </div>
-              </div>
-            </SheetContent>
-          </Sheet>
-        </div>
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          className="grid h-11 w-11 place-items-center text-stone-900 md:hidden"
+          aria-label="Menu"
+          aria-expanded={open}
+        >
+          {open ? <XIcon className="h-6 w-6" /> : <MenuIcon className="h-6 w-6" />}
+        </button>
       </div>
+
+      {/* Mobile menu */}
+      {open && (
+        <nav className="border-t border-stone-200/70 bg-stone-50 md:hidden">
+          <div className="mx-auto flex max-w-[80rem] flex-col px-4 py-3">
+            {navLinks.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setOpen(false)}
+                className="rounded-lg px-2 py-3 text-sm font-medium text-stone-700 transition hover:bg-stone-100 hover:text-stone-900"
+              >
+                {item.label}
+              </Link>
+            ))}
+            <Link
+              href="/#quote"
+              onClick={() => setOpen(false)}
+              className="mt-2 inline-flex items-center justify-center gap-1.5 rounded-full bg-stone-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-stone-700"
+            >
+              Request a Quote <ArrowRightIcon className="h-4 w-4" />
+            </Link>
+          </div>
+        </nav>
+      )}
     </header>
   );
 }

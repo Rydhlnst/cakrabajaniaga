@@ -1,582 +1,346 @@
-import Image from "next/image";
+/* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import {
   ArrowRightIcon,
-  CheckIcon,
-  DownloadIcon,
-  InfoIcon,
+  AwardIcon,
+  CircleCheckIcon,
+  EarthIcon,
+  FileDownIcon,
+  LeafIcon,
   MailIcon,
   MapPinIcon,
   PhoneIcon,
-  SproutIcon,
+  ShieldCheckIcon,
+  SparklesIcon,
+  TruckIcon,
 } from "lucide-react";
 
 import {
-  advantages,
   buyerTypes,
-  faqs,
-  originCards,
-  productSpec,
+  process,
   products,
-  qualitySteps,
   quoteBenefits,
   site,
-  stats,
+  whyPoints,
 } from "@/lib/site";
-import { getAllArticles } from "@/lib/articles";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Icon, type IconName } from "@/components/icon";
 import { QuoteForm } from "@/components/quote-form";
-import { ArticleCard } from "@/components/article-card";
+
+const productImages: Record<string, string> = {
+  cilembu: "/site/cilembu.png",
+  purple: "/site/purple.png",
+  murasaki: "/site/murasaki.png",
+};
+
+const whyIcons = [LeafIcon, EarthIcon, ShieldCheckIcon, AwardIcon];
+const processIcons = [MapPinIcon, ShieldCheckIcon, TruckIcon, EarthIcon];
 
 export default function Home() {
-  const latest = getAllArticles().slice(0, 3);
-
   return (
-    <>
-      {/* ================= HERO + ABOUT (continuous dark block) ============= */}
-      <div className="bg-surface-dark text-surface-dark-foreground">
-        {/* ---- Hero -------------------------------------------------------- */}
-        <section id="top" className="relative isolate overflow-hidden">
-          <Image
-            src="/assets/hero-harvest.png"
+    <div className="min-h-screen bg-stone-50 text-stone-900 selection:bg-amber-200">
+      {/* ================= HERO ============================================ */}
+      <section id="top" className="relative flex min-h-[100dvh] items-center overflow-hidden pt-20">
+        <div className="absolute inset-0">
+          <img
+            src="/site/hero.png"
             alt="Premium Cilembu sweet potato harvest in West Java"
-            fill
-            priority
-            sizes="100vw"
-            className="-z-10 object-cover"
+            className="h-full w-full object-cover"
           />
-          <div className="absolute inset-0 -z-10 bg-gradient-to-b from-surface-dark/85 via-surface-dark/60 to-surface-dark" />
-
-          <div className="container-page flex min-h-[88vh] flex-col justify-center py-32">
-            <p className="animate-rise eyebrow">
-              <SproutIcon className="size-4" />
+          <div className="absolute inset-0 bg-gradient-to-r from-stone-950/90 via-stone-950/70 to-stone-950/30" />
+        </div>
+        <div className="relative mx-auto w-full max-w-[80rem] px-5 py-16 sm:py-24">
+          <div className="animate-rise max-w-2xl">
+            <span className="inline-flex items-center gap-2 rounded-full border border-amber-300/40 bg-amber-300/10 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.18em] text-amber-200">
+              <EarthIcon className="h-3.5 w-3.5" />
               Exporting from Indonesia worldwide
-            </p>
-            <h1 className="animate-rise mt-6 max-w-4xl font-heading text-4xl leading-[1.05] font-semibold tracking-tight text-balance sm:text-6xl lg:text-7xl">
-              Premium Indonesian sweet potatoes for international markets
+            </span>
+            <h1 className="mt-6 font-display text-[2rem] font-semibold leading-[1.08] text-white sm:text-5xl lg:text-6xl">
+              Premium Indonesian sweet potatoes, sourced for the world&rsquo;s buyers.
             </h1>
-            <p className="animate-rise mt-7 max-w-2xl text-base leading-relaxed text-surface-dark-foreground/75 sm:text-lg">
-              {site.name} supplies importers, distributors, and retailers across
-              the globe with export-grade Cilembu, Purple, and Murasaki sweet
-              potatoes — consistent quality, reliable volumes, and full-origin
-              traceability.
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-stone-200 sm:mt-6 sm:text-lg">
+              PT Cakra Baja Niaga supplies importers, distributors, and retailers across the globe
+              with export-grade Cilembu, Purple, and Murasaki sweet potatoes — consistent quality,
+              reliable volumes, and full-origin traceability.
             </p>
-            <div className="animate-rise mt-9 flex flex-col gap-3 sm:flex-row">
-              <Link href="/#quote" className={cn(buttonVariants({ variant: "brand", size: "lg" }))}>
-                Request a Sample
-                <ArrowRightIcon data-icon="inline-end" />
+            <div className="mt-8 flex flex-col gap-3 sm:mt-9 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+              <Link
+                href="#quote"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-amber-500 px-7 py-3.5 text-base font-semibold text-stone-950 transition hover:bg-amber-400"
+              >
+                Request a Quote <ArrowRightIcon className="h-5 w-5" />
               </Link>
               <Link
-                href="/#products"
-                className={cn(
-                  buttonVariants({ variant: "outline", size: "lg" }),
-                  "border-white/25 bg-white/5 text-white backdrop-blur-sm hover:bg-white/15 hover:text-white"
-                )}
+                href="#products"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 px-7 py-3.5 text-base font-medium text-white transition hover:bg-white/10"
               >
-                Get Export Catalogue
+                View Catalog
               </Link>
             </div>
+            <div className="mt-10 grid grid-cols-3 gap-4 border-t border-white/15 pt-6 sm:mt-12 sm:flex sm:flex-wrap sm:gap-x-10 sm:border-0 sm:pt-0">
+              {[
+                ["40+", "Export markets"],
+                ["Grade A", "Export quality"],
+                ["Year-round", "Supply capacity"],
+              ].map(([value, label]) => (
+                <div key={label}>
+                  <div className="font-display text-xl font-semibold text-white sm:text-2xl">
+                    {value}
+                  </div>
+                  <div className="mt-0.5 text-xs leading-tight text-stone-300 sm:text-sm">
+                    {label}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ---- About ------------------------------------------------------- */}
-        <section id="about" className="scroll-mt-24 border-t border-white/10">
-          <div className="container-page grid items-center gap-12 py-20 md:py-28 lg:grid-cols-2 lg:gap-16">
-            <div className="relative aspect-[5/4] overflow-hidden rounded-xl border border-white/10">
-              <Image
-                src="/assets/farm-terraces.png"
-                alt="Sweet potato farmer inspecting the harvest in West Java"
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
-              />
+      {/* ================= BUYER MARQUEE =================================== */}
+      <div className="border-y border-stone-200 bg-amber-700 py-3.5 text-amber-50">
+        <div className="flex w-max marquee-track gap-12 whitespace-nowrap pr-12">
+          {[0, 1].map((half) => (
+            <div key={half} className="flex gap-12">
+              {buyerTypes.map((t) => (
+                <span
+                  key={t}
+                  className="flex items-center gap-3 text-sm font-medium uppercase tracking-[0.15em]"
+                >
+                  <LeafIcon className="h-4 w-4" /> {t}
+                </span>
+              ))}
             </div>
-            <div>
-              <p className="eyebrow">About {site.shortName}</p>
-              <h2 className="mt-4 font-heading text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-                From West Java to the global market
-              </h2>
-              <p className="mt-6 leading-relaxed text-surface-dark-foreground/70">
-                {site.name} is an Indonesian trading company specializing in
-                export-grade sweet potatoes sourced from selected farms in West
-                Java. We work closely with local farmers to ensure traceability,
-                quality consistency, and produce that meets international export
-                standards.
-              </p>
-              <p className="mt-4 leading-relaxed text-surface-dark-foreground/70">
-                Our focus is not only on volume, but on delivering reliable
-                quality for long-term partnerships that importers, distributors,
-                and retailers can build their business on.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-x-8 gap-y-3">
-                {["Direct farm sourcing", "Full traceability", "Export-ready docs"].map((t) => (
-                  <span key={t} className="flex items-center gap-2 text-sm text-surface-dark-foreground/85">
-                    <CheckIcon className="size-4 text-brand" />
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
+          ))}
+        </div>
       </div>
 
-      {/* ================= STATS ============================================ */}
-      <section className="border-b border-border">
-        <div className="container-page grid grid-cols-2 gap-x-6 gap-y-10 py-14 lg:grid-cols-4">
-          {stats.map((s) => {
-            const plus = s.value.endsWith("+");
-            const num = plus ? s.value.slice(0, -1) : s.value;
+      {/* ================= PRODUCTS ======================================== */}
+      <section id="products" className="mx-auto max-w-[80rem] px-5 py-16 sm:py-24">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+          <div className="max-w-2xl">
+            <span className="text-sm font-semibold uppercase tracking-[0.18em] text-amber-700">
+              Product Catalog
+            </span>
+            <h2 className="mt-3 font-display text-2xl font-semibold leading-tight sm:text-4xl">
+              Three world-class varieties, one trusted supplier
+            </h2>
+            <p className="mt-4 text-base text-stone-600 sm:text-lg">
+              Every shipment is graded, cleaned, and packed to international export standards, with
+              documentation buyers can rely on.
+            </p>
+          </div>
+          <button
+            type="button"
+            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full border border-stone-300 bg-white px-6 py-3.5 text-sm font-semibold text-stone-900 shadow-sm transition hover:border-amber-600 hover:text-amber-800"
+          >
+            <FileDownIcon className="h-4 w-4" /> Download Catalog (PDF)
+          </button>
+        </div>
+
+        <div className="mt-10 space-y-8 sm:mt-14 sm:space-y-10">
+          {products.map((p, i) => (
+            <article
+              key={p.key}
+              className={`grid items-center gap-8 overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm lg:grid-cols-2 ${
+                i % 2 === 1 ? "lg:[&>figure]:order-2" : ""
+              }`}
+            >
+              <figure className="relative h-52 sm:h-72 lg:h-full lg:min-h-[22rem]">
+                <img
+                  src={productImages[p.key]}
+                  alt={p.name}
+                  className="h-full w-full object-cover"
+                />
+              </figure>
+              <div className="p-6 sm:p-8 lg:p-10">
+                <span className="inline-block rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-amber-800">
+                  {p.eyebrow}
+                </span>
+                <h3 className="mt-4 font-display text-2xl font-semibold">{p.name}</h3>
+                <p className="mt-3 text-stone-600">{p.summary}</p>
+                <p className="mt-3 flex gap-2 text-sm text-stone-500">
+                  <MapPinIcon className="mt-0.5 h-4 w-4 shrink-0 text-amber-700" />
+                  {p.origin}
+                </p>
+                <ul className="mt-5 grid gap-2">
+                  {p.features.map((f) => (
+                    <li
+                      key={f}
+                      className="flex items-center gap-2 text-sm font-medium text-stone-700"
+                    >
+                      <CircleCheckIcon className="h-4 w-4 text-amber-700" /> {f}
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  href="#quote"
+                  className="mt-7 inline-flex items-center gap-1.5 text-sm font-semibold text-amber-800 hover:text-amber-900"
+                >
+                  Request pricing for {p.name.split(" ")[0]}{" "}
+                  <ArrowRightIcon className="h-4 w-4" />
+                </Link>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* ================= WHY (dark) ===================================== */}
+      <section id="why" className="relative overflow-hidden bg-stone-900 py-16 text-stone-100 sm:py-24">
+        <div className="mx-auto grid max-w-[80rem] items-center gap-10 px-5 lg:grid-cols-2 lg:gap-14">
+          <div>
+            <span className="text-sm font-semibold uppercase tracking-[0.18em] text-amber-400">
+              Why Indonesia / Why Cilembu
+            </span>
+            <h2 className="mt-3 font-display text-2xl font-semibold leading-tight sm:text-4xl">
+              Born from volcanic soil, perfected for export
+            </h2>
+            <p className="mt-5 text-base leading-relaxed text-stone-300 sm:text-lg">
+              Indonesia&rsquo;s equatorial climate and fertile volcanic highlands create ideal
+              year-round growing conditions. The village of Cilembu in West Java is world-renowned
+              for sweet potatoes whose naturally honeyed flavor cannot be replicated elsewhere.
+            </p>
+            <div className="mt-8 grid gap-5 sm:grid-cols-2">
+              {whyPoints.map((w, i) => {
+                const IconEl = whyIcons[i];
+                return (
+                  <div key={w.title} className="rounded-xl border border-white/10 bg-white/5 p-5">
+                    <IconEl className="h-6 w-6 text-amber-400" strokeWidth={1.75} />
+                    <h3 className="mt-3 font-display text-lg font-semibold">{w.title}</h3>
+                    <p className="mt-1.5 text-sm text-stone-400">{w.body}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="relative">
+            <img
+              src="/site/terraces.png"
+              alt="Terraced sweet potato farms in Cilembu, West Java"
+              className="aspect-[4/3] w-full rounded-2xl object-cover shadow-2xl"
+            />
+            <img
+              src="/site/packing.png"
+              alt="Export packing and grading facility"
+              className="absolute -bottom-8 -left-6 hidden w-2/5 rounded-xl border-4 border-stone-900 object-cover shadow-xl sm:block"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ================= PROCESS ========================================= */}
+      <section className="mx-auto max-w-[80rem] px-5 py-16 sm:py-24">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-8 md:grid-cols-4 md:gap-10">
+          {process.map((step, i) => {
+            const IconEl = processIcons[i];
             return (
-              <div key={s.label} className="text-center lg:text-left">
-                <p className="font-heading text-4xl font-semibold tracking-tight sm:text-5xl">
-                  {num}
-                  {plus && <span className="text-brand">+</span>}
-                </p>
-                <p className="mt-2 text-xs font-medium tracking-[0.15em] text-muted-foreground uppercase">
-                  {s.label}
-                </p>
+              <div key={step.step} className="relative">
+                <span className="font-display text-sm font-semibold text-amber-700">
+                  {step.step}
+                </span>
+                <IconEl className="mt-3 h-7 w-7 text-stone-900" strokeWidth={1.75} />
+                <h3 className="mt-3 font-display text-lg font-semibold">{step.title}</h3>
+                <p className="mt-1.5 text-sm text-stone-600">{step.body}</p>
               </div>
             );
           })}
         </div>
       </section>
 
-      {/* ================= TRUSTED STRIP =================================== */}
-      <section className="border-b border-border bg-secondary/50 py-8">
-        <div className="container-page">
-          <p className="text-center text-[0.7rem] font-semibold tracking-[0.2em] text-muted-foreground uppercase sm:text-left">
-            Trusted by buyers across the sweet potato supply chain
-          </p>
-        </div>
-        <div className="marquee-mask mt-6 overflow-hidden">
-          <div className="animate-marquee flex w-max items-center gap-12 pr-12">
-            {[...buyerTypes, ...buyerTypes, ...buyerTypes, ...buyerTypes].map((t, i) => (
-              <span
-                key={i}
-                className="flex shrink-0 items-center gap-3 text-sm font-medium tracking-wide text-muted-foreground/80 uppercase"
-              >
-                <span className="size-1.5 rounded-full bg-brand" />
-                {t}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ================= ORIGIN & TERROIR =============================== */}
-      <section id="origin" className="section-y scroll-mt-24">
-        <div className="container-page">
-          <div className="max-w-2xl">
-            <p className="eyebrow">Origin &amp; Terroir</p>
-            <h2 className="mt-4 font-heading text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-              West Java Cilembu, born from volcanic highlands
-            </h2>
-            <p className="mt-4 text-muted-foreground">
-              The village of Cilembu is world-renowned for sweet potatoes whose
-              naturally honeyed flavor cannot be replicated elsewhere.
-            </p>
-          </div>
-
-          <div className="mt-12 grid gap-5 md:grid-cols-3">
-            {originCards.map((c) => (
-              <article
-                key={c.title}
-                className="lift group relative overflow-hidden rounded-xl border border-border"
-              >
-                <div className="relative aspect-[4/5]">
-                  <Image
-                    src={c.image}
-                    alt={c.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-surface-dark via-surface-dark/40 to-transparent" />
-                </div>
-                <div className="absolute inset-0 flex flex-col justify-end p-6 text-surface-dark-foreground">
-                  <span className="inline-flex size-10 items-center justify-center rounded-sm bg-brand text-brand-foreground">
-                    <Icon name={c.icon as IconName} className="size-5" />
-                  </span>
-                  <h3 className="mt-4 font-heading text-lg font-semibold tracking-tight">
-                    {c.title}
-                  </h3>
-                  <p className="mt-1.5 text-sm leading-relaxed text-surface-dark-foreground/75">
-                    {c.body}
-                  </p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ================= PRODUCTS / VARIETIES =========================== */}
-      <section id="products" className="section-y scroll-mt-24 border-y border-border bg-secondary/40">
-        <div className="container-page">
-          <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
-            <div className="max-w-2xl">
-              <p className="eyebrow">Product Catalog</p>
-              <h2 className="mt-4 font-heading text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-                Three world-class varieties, one trusted supplier
-              </h2>
-              <p className="mt-4 text-muted-foreground">
-                Every shipment is graded, cleaned, and packed to international
-                export standards, with documentation buyers can rely on.
-              </p>
-            </div>
-            <Link
-              href="/#quote"
-              className={cn(buttonVariants({ variant: "outline" }), "shrink-0")}
-            >
-              <DownloadIcon data-icon="inline-start" />
-              Download Catalog
-            </Link>
-          </div>
-
-          <div className="mt-12 grid gap-6 lg:grid-cols-3">
-            {products.map((p, i) => (
-              <article
-                key={p.key}
-                className="lift group flex flex-col overflow-hidden rounded-xl border border-border bg-card hover:shadow-xl"
-              >
-                <div className="relative aspect-[4/3] overflow-hidden bg-muted">
-                  <Image
-                    src={p.image}
-                    alt={p.name}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 33vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    priority={i === 0}
-                  />
-                  <span className="absolute top-4 left-4 rounded-sm bg-surface-dark/60 px-3 py-1 text-[0.65rem] font-semibold tracking-widest text-white uppercase backdrop-blur-sm">
-                    {p.eyebrow}
-                  </span>
-                </div>
-                <div className="flex flex-1 flex-col p-7">
-                  <h3 className="font-heading text-xl font-semibold tracking-tight">
-                    {p.name}
-                  </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                    {p.summary}
-                  </p>
-                  <ul className="mt-5 space-y-2.5">
-                    {p.features.map((f) => (
-                      <li key={f} className="flex items-center gap-2.5 text-sm">
-                        <CheckIcon className="size-4 shrink-0 text-brand" />
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
-                  <Link
-                    href="/#quote"
-                    className="mt-6 inline-flex items-center gap-1.5 text-xs font-semibold tracking-widest text-foreground uppercase transition-colors group-hover:text-brand"
-                  >
-                    Request pricing
-                    <ArrowRightIcon className="size-3.5 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ================= PRODUCT SPECIFICATION ========================== */}
-      <section id="specification" className="section-y scroll-mt-24">
-        <div className="container-page grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          <div className="relative aspect-[4/3] overflow-hidden rounded-xl border border-border">
-            <Image
-              src={productSpec.image}
-              alt={productSpec.name}
-              fill
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover"
-            />
-          </div>
+      {/* ================= QUOTE =========================================== */}
+      <section id="quote" className="bg-amber-50/60 py-16 sm:py-24">
+        <div className="mx-auto grid max-w-[80rem] gap-10 px-5 lg:grid-cols-2 lg:gap-12">
           <div>
-            <p className="eyebrow">{productSpec.eyebrow}</p>
-            <h2 className="mt-4 font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
-              {productSpec.name}
-            </h2>
-
-            <dl className="mt-8 divide-y divide-border border-y border-border">
-              {productSpec.rows.map((r) => (
-                <div key={r.label} className="flex items-baseline justify-between gap-6 py-3">
-                  <dt className="text-sm text-muted-foreground">{r.label}</dt>
-                  <dd className="text-right text-sm font-medium">{r.value}</dd>
-                </div>
-              ))}
-            </dl>
-
-            <div className="mt-6 flex items-start gap-3 rounded-lg border border-border bg-secondary/50 px-4 py-3">
-              <InfoIcon className="mt-0.5 size-4 shrink-0 text-brand" />
-              <p className="text-sm text-muted-foreground">{productSpec.note}</p>
-            </div>
-
-            <div className="mt-7 flex flex-wrap gap-3">
-              <Link href="/#quote" className={cn(buttonVariants({ variant: "brand" }))}>
-                Request a Sample
-              </Link>
-              <Link href="/#contact" className={cn(buttonVariants({ variant: "outline" }))}>
-                Contact Export Desk
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ================= QUALITY CONTROL ================================ */}
-      <section id="quality" className="section-y scroll-mt-24 border-y border-border bg-secondary/40">
-        <div className="container-page">
-          <div className="max-w-2xl">
-            <p className="eyebrow">Quality Control</p>
-            <h2 className="mt-4 font-heading text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-              Consistent quality, every shipment
-            </h2>
-            <p className="mt-4 text-muted-foreground">
-              From selection to packing, each step is controlled so every carton
-              meets the same export standard.
-            </p>
-          </div>
-
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:[grid-auto-rows:13rem]">
-            {qualitySteps.map((q, i) => (
-              <article
-                key={q.title}
-                className={cn(
-                  "group relative overflow-hidden rounded-xl border border-border",
-                  i === 0 && "sm:col-span-2 sm:row-span-2 lg:col-span-2 lg:row-span-2",
-                  i !== 0 && "min-h-52"
-                )}
-              >
-                <Image
-                  src={q.image}
-                  alt={q.title}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div
-                  className={cn(
-                    "absolute inset-0",
-                    i === 1
-                      ? "bg-gradient-to-t from-brand via-brand/55 to-brand/10"
-                      : "bg-gradient-to-t from-surface-dark via-surface-dark/40 to-transparent"
-                  )}
-                />
-                <div
-                  className={cn(
-                    "absolute inset-x-0 bottom-0 p-6",
-                    i === 1 ? "text-brand-foreground" : "text-surface-dark-foreground"
-                  )}
-                >
-                  <h3 className="font-heading text-lg font-semibold tracking-tight">
-                    {q.title}
-                  </h3>
-                  <p
-                    className={cn(
-                      "mt-1.5 text-sm leading-relaxed",
-                      i === 1 ? "text-brand-foreground/80" : "text-surface-dark-foreground/75"
-                    )}
-                  >
-                    {q.body}
-                  </p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ================= WHY US ========================================= */}
-      <section id="why" className="section-y scroll-mt-24">
-        <div className="container-page">
-          <div className="max-w-2xl">
-            <p className="eyebrow">Why {site.shortName}</p>
-            <h2 className="mt-4 font-heading text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-              Your trusted sweet potato export partner
-            </h2>
-          </div>
-
-          <div className="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
-            {advantages.map((a) => (
-              <div key={a.title} className="group">
-                <span className="inline-flex size-11 items-center justify-center rounded-sm border border-border bg-secondary/60 text-brand transition-colors group-hover:border-brand group-hover:bg-brand group-hover:text-brand-foreground">
-                  <Icon name={a.icon as IconName} className="size-5" />
-                </span>
-                <h3 className="mt-5 font-heading text-lg font-semibold tracking-tight">
-                  {a.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {a.body}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ================= BLOG TEASER ==================================== */}
-      <section className="section-y border-y border-border bg-secondary/40">
-        <div className="container-page">
-          <div className="flex items-end justify-between gap-6">
-            <div className="max-w-2xl">
-              <p className="eyebrow">Insights &amp; News</p>
-              <h2 className="mt-4 font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
-                The CBN Export Journal
-              </h2>
-              <p className="mt-4 text-muted-foreground">
-                Market updates and know-how from Indonesia&rsquo;s sweet potato
-                export trade.
-              </p>
-            </div>
-            <Link
-              href="/blog"
-              className={cn(buttonVariants({ variant: "outline" }), "hidden shrink-0 sm:inline-flex")}
-            >
-              All articles
-              <ArrowRightIcon data-icon="inline-end" />
-            </Link>
-          </div>
-          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {latest.map((a, i) => (
-              <ArticleCard key={a.slug} article={a} priority={i === 0} />
-            ))}
-          </div>
-          <div className="mt-10 sm:hidden">
-            <Link href="/blog" className={cn(buttonVariants({ variant: "outline" }), "w-full")}>
-              All articles
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ================= FAQ ============================================ */}
-      <section id="faq" className="section-y scroll-mt-24">
-        <div className="container-page grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-          <div>
-            <p className="eyebrow">FAQ</p>
-            <h2 className="mt-4 font-heading text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-              Frequently asked questions
-            </h2>
-            <p className="mt-4 text-muted-foreground">
-              Have more questions? Our team is ready to assist you.
-            </p>
-            <Link
-              href="/#contact"
-              className="mt-6 inline-flex items-center gap-1.5 text-xs font-semibold tracking-widest text-brand uppercase"
-            >
-              Contact us
-              <ArrowRightIcon className="size-3.5" />
-            </Link>
-          </div>
-
-          <Accordion className="border-t border-border">
-            {faqs.map((f) => (
-              <AccordionItem key={f.q} value={f.q}>
-                <AccordionTrigger className="font-heading text-base">
-                  {f.q}
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground">
-                  {f.a}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </div>
-      </section>
-
-      {/* ================= QUOTE + CONTACT (dark) ========================= */}
-      <section
-        id="quote"
-        className="scroll-mt-24 bg-surface-dark text-surface-dark-foreground"
-      >
-        <div className="container-page grid gap-14 py-20 md:py-28 lg:grid-cols-[0.9fr_1.1fr]">
-          <div>
-            <p className="eyebrow">Request a Quote</p>
-            <h2 className="mt-4 font-heading text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
+            <span className="text-sm font-semibold uppercase tracking-[0.18em] text-amber-700">
+              Request a Quote
+            </span>
+            <h2 className="mt-3 font-display text-2xl font-semibold leading-tight sm:text-4xl">
               Tell us what you need — we&rsquo;ll respond within one business day
             </h2>
-            <p className="mt-4 text-surface-dark-foreground/70">
-              Share your requirements and our export team will prepare pricing,
-              specifications, and shipping options tailored to your market.
+            <p className="mt-5 text-base text-stone-600 sm:text-lg">
+              Share your requirements and our export team will prepare pricing, specifications, and
+              shipping options tailored to your market.
             </p>
-            <ul className="mt-8 space-y-3.5">
+            <ul className="mt-8 space-y-3">
               {quoteBenefits.map((b) => (
-                <li key={b} className="flex items-center gap-3 text-sm text-surface-dark-foreground/85">
-                  <CheckIcon className="size-4 shrink-0 text-brand" />
-                  {b}
+                <li key={b} className="flex items-center gap-3 text-stone-700">
+                  <SparklesIcon className="h-5 w-5 text-amber-600" /> {b}
                 </li>
               ))}
             </ul>
-            <div
-              id="contact"
-              className="mt-10 flex scroll-mt-24 flex-col gap-4 border-t border-white/10 pt-8 text-sm sm:flex-row sm:flex-wrap sm:gap-6"
-            >
-              <a href={site.whatsappUrl} className="flex items-center gap-2 text-surface-dark-foreground/80 transition-colors hover:text-brand">
-                <PhoneIcon className="size-4 text-brand" />
-                {site.whatsapp}
-              </a>
-              <a href={`mailto:${site.email}`} className="flex items-center gap-2 text-surface-dark-foreground/80 transition-colors hover:text-brand">
-                <MailIcon className="size-4 text-brand" />
-                {site.email}
-              </a>
-              <span className="flex items-start gap-2 text-surface-dark-foreground/60">
-                <MapPinIcon className="mt-0.5 size-4 shrink-0 text-brand" />
-                <span className="max-w-xs leading-relaxed">{site.address}</span>
-              </span>
-            </div>
           </div>
-
-          <div className="rounded-xl border border-white/10 bg-white/[0.03] p-7 backdrop-blur-sm sm:p-9">
+          <div className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm sm:p-9">
             <QuoteForm />
           </div>
         </div>
       </section>
 
-      {/* ================= CTA BANNER ===================================== */}
-      <section className="bg-brand text-brand-foreground">
-        <div className="container-page flex flex-col items-start justify-between gap-8 py-14 md:flex-row md:items-center md:py-16">
-          <div className="max-w-2xl">
-            <h2 className="font-heading text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-              Start your sweet potato sourcing with us
+      {/* ================= ABOUT + CONTACT ================================ */}
+      <section id="about" className="mx-auto max-w-[80rem] px-5 py-16 sm:py-24">
+        <div className="grid gap-10 lg:grid-cols-2 lg:gap-14">
+          <div>
+            <span className="text-sm font-semibold uppercase tracking-[0.18em] text-amber-700">
+              About Us
+            </span>
+            <h2 className="mt-3 font-display text-2xl font-semibold leading-tight sm:text-4xl">
+              PT Cakra Baja Niaga
             </h2>
-            <p className="mt-3 text-brand-foreground/80">
-              Looking for a reliable supplier from Indonesia? Contact us today to
-              request samples, pricing, or our export catalogue.
+            <p className="mt-5 text-base leading-relaxed text-stone-600 sm:text-lg">
+              We are an Indonesian trading company specializing in the export of premium sweet
+              potatoes to international buyers. Working directly with partner farms in West Java, we
+              bridge the gap between Indonesia&rsquo;s finest produce and discerning markets
+              worldwide.
+            </p>
+            <p className="mt-4 text-lg leading-relaxed text-stone-600">
+              Our focus is simple: consistent quality, dependable supply, and transparent
+              partnerships that importers, distributors, and retailers can build their business on.
             </p>
           </div>
-          <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
-            <Link
-              href="/#contact"
-              className={cn(
-                buttonVariants({ size: "lg" }),
-                "bg-surface-dark text-surface-dark-foreground hover:bg-surface-dark/85"
-              )}
-            >
-              Contact Us
-            </Link>
-            <Link
-              href="/#quote"
-              className={cn(
-                buttonVariants({ variant: "outline", size: "lg" }),
-                "border-brand-foreground/30 text-brand-foreground hover:bg-brand-foreground/10 hover:text-brand-foreground"
-              )}
-            >
-              Request a Sample
-            </Link>
+          <div
+            id="contact"
+            className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8"
+          >
+            <h3 className="font-display text-2xl font-semibold">Get in touch</h3>
+            <p className="mt-2 text-stone-600">Reach our export desk directly.</p>
+            <div className="mt-7 space-y-4">
+              <a
+                href={site.whatsappUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-start gap-4 rounded-xl border border-stone-200 p-4 transition hover:border-amber-300 hover:bg-amber-50/50"
+              >
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-green-600 text-white">
+                  <PhoneIcon className="h-5 w-5" />
+                </span>
+                <span>
+                  <span className="block font-semibold">WhatsApp</span>
+                  <span className="text-stone-600">{site.whatsapp}</span>
+                </span>
+              </a>
+              <a
+                href={`mailto:${site.email}`}
+                className="flex items-start gap-4 rounded-xl border border-stone-200 p-4 transition hover:border-amber-300 hover:bg-amber-50/50"
+              >
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-amber-700 text-white">
+                  <MailIcon className="h-5 w-5" />
+                </span>
+                <span>
+                  <span className="block font-semibold">Email</span>
+                  <span className="text-stone-600">{site.email}</span>
+                </span>
+              </a>
+              <div className="flex items-start gap-4 rounded-xl border border-stone-200 p-4">
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-stone-900 text-white">
+                  <MapPinIcon className="h-5 w-5" />
+                </span>
+                <span>
+                  <span className="block font-semibold">Office</span>
+                  <span className="text-stone-600">{site.address}</span>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }

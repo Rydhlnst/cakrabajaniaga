@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Noto_Sans, Playfair_Display } from "next/font/google";
+import { Fraunces, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { site } from "@/lib/site";
@@ -8,13 +8,14 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Toaster } from "@/components/ui/sonner";
 
-const playfair = Playfair_Display({
+// Fraunces (serif display) + Inter (body) — matches the deployed reference site.
+const fraunces = Fraunces({
   subsets: ["latin"],
   variable: "--font-heading",
   display: "swap",
 });
 
-const notoSans = Noto_Sans({
+const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
@@ -52,7 +53,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("h-full antialiased", notoSans.variable, playfair.variable, "font-sans")}
+      className={cn("h-full antialiased", inter.variable, fraunces.variable, "font-sans")}
     >
       <body className="flex min-h-full flex-col bg-background">
         <ThemeProvider

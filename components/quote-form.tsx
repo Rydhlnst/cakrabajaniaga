@@ -1,21 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { Loader2Icon, SendIcon } from "lucide-react";
+import { ArrowRightIcon, Loader2Icon } from "lucide-react";
 import { toast } from "sonner";
 
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  NativeSelect,
-  NativeSelectOption,
-} from "@/components/ui/native-select";
-
-const fieldWrap = "flex flex-col gap-2";
-const labelCls = "text-xs font-semibold tracking-wider text-muted-foreground uppercase";
+const inputCls =
+  "w-full rounded-lg border border-stone-300 bg-white px-4 py-3 text-stone-900 placeholder:text-stone-400 outline-none transition focus:border-amber-600 focus:ring-2 focus:ring-amber-600/20";
+const labelTextCls = "text-sm font-medium text-stone-700";
 
 export function QuoteForm() {
   const [loading, setLoading] = React.useState(false);
@@ -47,72 +38,62 @@ export function QuoteForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-5">
-      <div className="grid gap-5 sm:grid-cols-2">
-        <div className={fieldWrap}>
-          <Label htmlFor="fullName" className={labelCls}>
-            Full name
-          </Label>
-          <Input id="fullName" name="fullName" required placeholder="Jane Doe" />
-        </div>
-        <div className={fieldWrap}>
-          <Label htmlFor="company" className={labelCls}>
-            Company
-          </Label>
-          <Input id="company" name="company" placeholder="Acme Imports Ltd." />
-        </div>
-        <div className={fieldWrap}>
-          <Label htmlFor="country" className={labelCls}>
-            Country
-          </Label>
-          <Input id="country" name="country" placeholder="United States" />
-        </div>
-        <div className={fieldWrap}>
-          <Label htmlFor="email" className={labelCls}>
-            Email
-          </Label>
-          <Input id="email" name="email" type="email" required placeholder="you@company.com" />
-        </div>
-        <div className={fieldWrap}>
-          <Label htmlFor="product" className={labelCls}>
-            Product interest
-          </Label>
-          <NativeSelect
-            id="product"
-            name="product"
-            defaultValue="Cilembu Sweet Potato"
-            className="w-full [&>select]:w-full"
-          >
-            <NativeSelectOption>Cilembu Sweet Potato</NativeSelectOption>
-            <NativeSelectOption>Purple Sweet Potato</NativeSelectOption>
-            <NativeSelectOption>Murasaki Sweet Potato</NativeSelectOption>
-            <NativeSelectOption>Mixed varieties</NativeSelectOption>
-          </NativeSelect>
-        </div>
-        <div className={fieldWrap}>
-          <Label htmlFor="quantity" className={labelCls}>
-            Quantity
-          </Label>
-          <Input id="quantity" name="quantity" placeholder="e.g. 2× 40ft containers / month" />
-        </div>
+    <form onSubmit={onSubmit} className="grid gap-5 sm:grid-cols-2">
+      <label className="flex flex-col gap-2">
+        <span className={labelTextCls}>Full name</span>
+        <input name="fullName" required className={inputCls} placeholder="Your name" />
+      </label>
+      <label className="flex flex-col gap-2">
+        <span className={labelTextCls}>Company</span>
+        <input name="company" required className={inputCls} placeholder="Company name" />
+      </label>
+      <label className="flex flex-col gap-2">
+        <span className={labelTextCls}>Country</span>
+        <input name="country" required className={inputCls} placeholder="Destination country" />
+      </label>
+      <label className="flex flex-col gap-2">
+        <span className={labelTextCls}>Email</span>
+        <input name="email" required type="email" className={inputCls} placeholder="you@company.com" />
+      </label>
+      <label className="flex flex-col gap-2">
+        <span className={labelTextCls}>Product interest</span>
+        <select name="product" className={inputCls} defaultValue="Cilembu Sweet Potato">
+          <option>Cilembu Sweet Potato</option>
+          <option>Purple Sweet Potato</option>
+          <option>Murasaki Sweet Potato</option>
+          <option>Mixed varieties</option>
+        </select>
+      </label>
+      <label className="flex flex-col gap-2">
+        <span className={labelTextCls}>Quantity</span>
+        <input name="quantity" className={inputCls} placeholder="e.g. 2 x 40ft container" />
+      </label>
+      <div className="sm:col-span-2">
+        <label className="flex flex-col gap-2">
+          <span className={labelTextCls}>Message (optional)</span>
+          <textarea
+            name="message"
+            rows={3}
+            className={inputCls}
+            placeholder="Tell us about your requirements, target market, or timeline."
+          />
+        </label>
       </div>
-
-      <div className={fieldWrap}>
-        <Label htmlFor="message" className={labelCls}>
-          Message (optional)
-        </Label>
-        <Textarea
-          id="message"
-          name="message"
-          rows={4}
-          placeholder="Tell us about your target market, specs, or shipping terms."
-        />
-      </div>
-
-      <Button type="submit" variant="brand" size="lg" disabled={loading} className={cn("mt-1 w-full sm:w-auto")}>
-        {loading ? <Loader2Icon className="animate-spin" /> : <SendIcon data-icon="inline-start" />}
-        {loading ? "Sending…" : "Send Request"}
-      </Button>
+      <button
+        type="submit"
+        disabled={loading}
+        className="sm:col-span-2 mt-1 inline-flex items-center justify-center gap-2 rounded-full bg-stone-900 px-7 py-3.5 text-base font-semibold text-white transition hover:bg-stone-700 disabled:opacity-60"
+      >
+        {loading ? (
+          <>
+            <Loader2Icon className="h-5 w-5 animate-spin" /> Sending…
+          </>
+        ) : (
+          <>
+            Send Request <ArrowRightIcon className="h-5 w-5" />
+          </>
+        )}
+      </button>
     </form>
   );
 }
