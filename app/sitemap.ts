@@ -41,12 +41,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let blogPages: MetadataRoute.Sitemap = [];
   try {
     const articles = await getAllArticles();
-    blogPages = articles.map((article) => ({
-      url: `${site.url}/blog/${article.slug}`,
-      lastModified: article.date ?? NOW,
-      changeFrequency: "monthly" as const,
-      priority: 0.8,
-    }));
+    blogPages = articles.map((article) => {
+      const lastmod = article.date ? new Date(article.date).toISOString() : NOW;
+      return {
+        url: `${site.url}/blog/${article.slug}`,
+        lastModified: lastmod,
+        changeFrequency: "monthly" as const,
+        priority: 0.8,
+      };
+    });
   } catch (err) {
     console.error("[sitemap] Failed to load articles:", err);
   }

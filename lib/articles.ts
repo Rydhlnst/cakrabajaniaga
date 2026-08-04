@@ -108,12 +108,18 @@ export function readingTime(markdown: string): number {
   return Math.max(1, Math.round(words / 200));
 }
 
+function toIsoDate(value: string | null): string | null {
+  if (!value) return null;
+  const d = new Date(value);
+  return Number.isNaN(d.getTime()) ? null : d.toISOString();
+}
+
 function rowToArticle(row: ArticleRecord): Article {
   return {
     slug: row.slug,
     title: row.title,
     description: row.description ?? null,
-    date: row.date ?? null,
+    date: toIsoDate(row.date),
     image: row.image ?? null,
     markdown: row.markdown,
   };
