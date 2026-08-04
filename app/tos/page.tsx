@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { ArrowLeftIcon } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
@@ -115,6 +117,16 @@ export default function TosPage() {
               </p>
             </div>
           ))}
+        </div>
+
+        <div className="mt-12 border-t border-stone-200 pt-8">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-sm font-medium text-stone-600 transition hover:text-stone-900"
+          >
+            <ArrowLeftIcon className="h-4 w-4" />
+            Back to home
+          </Link>
         </div>
       </div>
     </div>
