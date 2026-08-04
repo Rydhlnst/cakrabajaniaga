@@ -62,24 +62,24 @@ export async function upsertArticle(article: {
 export async function getAllArticlesFromDB(): Promise<ArticleRecord[]> {
   await ensureArticlesTable();
 
-  const rows = await sql<ArticleRecord[]>`
+  const rows = await sql`
     SELECT slug, title, description, date::text AS date, image, markdown, created_at::text AS created_at, updated_at::text AS updated_at
     FROM articles
     ORDER BY COALESCE(date, created_at) DESC
   `;
-  return rows;
+  return rows as unknown as ArticleRecord[];
 }
 
 export async function getArticleFromDB(slug: string): Promise<ArticleRecord | null> {
   await ensureArticlesTable();
 
-  const rows = await sql<ArticleRecord[]>`
+  const rows = await sql`
     SELECT slug, title, description, date::text AS date, image, markdown, created_at::text AS created_at, updated_at::text AS updated_at
     FROM articles
     WHERE slug = ${slug}
     LIMIT 1
   `;
-  return rows[0] ?? null;
+  return (rows as unknown as ArticleRecord[])[0] ?? null;
 }
 
 export { sql };
