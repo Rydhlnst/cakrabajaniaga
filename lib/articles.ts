@@ -1,4 +1,6 @@
 import { cache } from "react";
+import fs from "node:fs";
+import path from "node:path";
 
 import type { ArticleRecord } from "@/lib/db";
 
@@ -107,14 +109,19 @@ export function readingTime(markdown: string): number {
 /**
  * Resolve an article image path to a usable URL.
  *
- * On Vercel the local filesystem is ephemeral, so `/blog/…` paths stored in the
- * DB no longer exist after deploy.  This helper detects those local paths and
- * rewrites them to the Cloudflare R2 public URL so images keep working.
+ * For local `/blog/…` paths, check whether the file actually exists in
+ * public/.  Old scraped articles have their images committed to the repo
+ * so the local path works fine on Vercel.  If the file is missing (e.g.
+ * a RankPill article whose image was never saved locally), rewrite to the
+ * Cloudflare R2 public URL instead.
+ *
  * Remote URLs (R2, Supabase, etc.) are returned unchanged.
  */
 export function resolveArticleImage(image: string | null | undefined): string {
   if (!image) return "";
   if (image.startsWith("/blog/")) {
+    const localFile = path.join(process.cwd(), "public", image);
+    if (fs.existsSync(localFile)) return image;
     const r2 = process.env.R2_PUBLIC_URL;
     if (r2) return `${r2}${image}`;
   }
