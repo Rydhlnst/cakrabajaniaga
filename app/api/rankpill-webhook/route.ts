@@ -6,7 +6,6 @@ import { revalidatePath } from "next/cache";
 import { upsertArticle, ensureArticlesTable } from "@/lib/db";
 import { uploadToR2 } from "@/lib/r2";
 import { sendArticleNotification } from "@/lib/resend";
-import { clearArticlesCache } from "@/lib/articles";
 
 // RankPill (autopilot) publishes SEO articles to this endpoint.
 // Docs: https://rankpill.com/help/webhooks
@@ -175,10 +174,8 @@ export async function POST(request: Request) {
     console.error("[rankpill-webhook] articles.json persistence failed:", err);
   }
 
-  // ── Step 4: Invalidate in-memory cache ─────────────────────────────────
-  clearArticlesCache();
-
-  // ── Step 4: Revalidate ISR cache ───────────────────────────────────────
+  // ── Step 4: Revalidate ISR cache (articles are re-fetched fresh on the
+  //           next render — no cross-request in-memory cache to clear) ──────
   try {
     revalidatePath("/blog");
     revalidatePath(`/blog/${article.slug}`);

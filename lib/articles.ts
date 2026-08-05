@@ -1,3 +1,5 @@
+import { cache } from "react";
+
 import type { ArticleRecord } from "@/lib/db";
 
 export type Article = {
@@ -43,20 +45,14 @@ async function loadArticles(): Promise<Article[]> {
   }
 }
 
-/** Cache for the duration of a single request / render. */
-let cachedArticles: Article[] | null = null;
-
-/** Clear the in-memory cache so the next read fetches fresh data. */
-export function clearArticlesCache(): void {
-  cachedArticles = null;
-}
-
-async function getArticles(): Promise<Article[]> {
-  if (!cachedArticles) {
-    cachedArticles = await loadArticles();
-  }
-  return cachedArticles;
-}
+/**
+ * Per-render memoization via React `cache()`. This dedupes repeated calls
+ * within a single request/render (e.g. list + pagination in one page), but —
+ * unlike a module-level singleton — is NOT shared across requests or warm
+ * serverless invocations. Each ISR regeneration therefore reads fresh rows
+ * from NeonDB, so newly delivered articles show up instead of a stale list.
+ */
+const getArticles = cache(loadArticles);
 
 export async function getAllArticles(): Promise<Article[]> {
   return getArticles();

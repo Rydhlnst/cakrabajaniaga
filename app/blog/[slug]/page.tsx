@@ -17,6 +17,10 @@ import { buttonVariants } from "@/components/ui/button";
 import { ArticleBody } from "@/components/article-body";
 import { ArticleCard } from "@/components/article-card";
 
+// ISR: known slugs are prebuilt; unknown slugs (freshly delivered articles)
+// render on-demand via dynamicParams, then cache. Refresh every 60s.
+export const revalidate = 60;
+
 export async function generateStaticParams() {
   const articles = await getAllArticles();
   return articles.map((a) => ({ slug: a.slug }));

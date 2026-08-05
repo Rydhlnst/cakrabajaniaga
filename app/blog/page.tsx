@@ -7,6 +7,10 @@ import { formatDate, getPagedArticles, readingTime } from "@/lib/articles";
 import { ArticleCard } from "@/components/article-card";
 import { BlogPagination } from "@/components/blog-pagination";
 
+// ISR: serve cached, regenerate at most every 60s. The rankpill webhook also
+// calls revalidatePath("/blog") for near-instant refresh on new deliveries.
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: "The CBN Export Journal",
   description:
