@@ -2,6 +2,9 @@ import type { MetadataRoute } from "next";
 import { site } from "@/lib/site";
 import { getAllArticles } from "@/lib/articles";
 
+// Revalidate sitemap every 60 minutes via ISR.
+export const revalidate = 3600;
+
 const NOW = new Date().toISOString();
 
 const staticPages: MetadataRoute.Sitemap = [
