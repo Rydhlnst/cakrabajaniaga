@@ -50,7 +50,11 @@ function verifySignature(rawBody: string, signature: string | null, secret: stri
  * Download a remote image and return the Buffer + content type.
  */
 async function downloadImage(url: string): Promise<{ buf: Buffer; contentType: string }> {
-  const res = await fetch(url);
+  const res = await fetch(url, {
+    headers: {
+      "User-Agent": "Mozilla/5.0 (compatible; CBNBot/1.0; +https://cakrabajaniaga.com)",
+    },
+  });
   if (!res.ok) throw new Error(`Failed to download image: HTTP ${res.status}`);
   const contentType = res.headers.get("content-type") || "image/jpeg";
   const buf = Buffer.from(await res.arrayBuffer());
@@ -116,17 +120,19 @@ export async function POST(request: Request) {
 
       console.log(`[rankpill-webhook] Image saved: local=${localPath} r2=${r2ImageUrl}`);
     } catch (err) {
-      console.error("[rankpill-webhook] Image processing failed:", err);
-      // Continue without image — article still gets persisted
+      console.error(`[rankpill-webhook] Image processing failed for slug="${article.slug}":`, err);
+      console.error(`[rankpill-webhook] featured_image URL was: ${article.featured_image}`);
+      // Continue — article still gets persisted, image falls back below
     }
   }
 
-  // The image field: prefer R2 URL, fall back to local path, then original URL
+  // The image field: prefer R2 URL, fall back to original URL (remote), then local path
+  // NOTE: local path (/blog/...) will NOT persist on Vercel's ephemeral filesystem,
+  //       so it should only be used as last resort. Original URL is more reliable.
   const imageField =
     r2ImageUrl ||
-    (article.featured_image
-      ? `/blog/${article.slug}/${filenameFromUrl(article.featured_image)}`
-      : null);
+    article.featured_image ||
+    null;
 
   // ── Step 2: Upsert into NeonDB ─────────────────────────────────────────
   try {
@@ -179,6 +185,7 @@ export async function POST(request: Request) {
   try {
     revalidatePath("/blog");
     revalidatePath(`/blog/${article.slug}`);
+    revalidatePath("/sitemap.xml");
   } catch {
     // ISR revalidation may fail in non-Vercel environments
   }
