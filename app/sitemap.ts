@@ -1,9 +1,7 @@
 import type { MetadataRoute } from "next";
+import { unstable_noStore as noStore } from "next/cache";
 import { site } from "@/lib/site";
 import { getAllArticles } from "@/lib/articles";
-
-// Revalidate sitemap every 60 minutes via ISR.
-export const revalidate = 3600;
 
 const NOW = new Date().toISOString();
 
@@ -41,6 +39,7 @@ const staticPages: MetadataRoute.Sitemap = [
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  noStore(); // Always fetch fresh data — no ISR cache.
   let blogPages: MetadataRoute.Sitemap = [];
   try {
     const articles = await getAllArticles();
