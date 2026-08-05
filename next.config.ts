@@ -16,6 +16,15 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "*.r2.dev" },
     ],
   },
+  async rewrites() {
+    return [
+      // RankPill's webhook integration is configured to POST to
+      // /hcgi/api/webhook. Map that path to the real route handler so we don't
+      // duplicate logic. Rewrites preserve method + raw body, so the HMAC
+      // signature check in the handler still validates.
+      { source: "/hcgi/api/webhook", destination: "/api/rankpill-webhook" },
+    ];
+  },
 };
 
 export default nextConfig;
