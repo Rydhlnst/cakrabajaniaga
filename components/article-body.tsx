@@ -3,6 +3,11 @@ import remarkGfm from "remark-gfm";
 
 import { cn } from "@/lib/utils";
 
+function isExternalLink(href: string | undefined): boolean {
+  if (!href) return false;
+  return href.startsWith("http://") || href.startsWith("https://");
+}
+
 // Renders scraped article markdown. Inline images are locally saved assets
 // under /blog/<slug>/… so a plain lazy <img> is the right call here.
 export function ArticleBody({ markdown }: { markdown: string }) {
@@ -23,7 +28,14 @@ export function ArticleBody({ markdown }: { markdown: string }) {
             // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
             <img loading="lazy" {...props} />
           ),
-          a: ({ ...props }) => <a target="_blank" rel="noopener noreferrer" {...props} />,
+          a: ({ href, ...props }) => (
+            <a
+              href={href}
+              target="_blank"
+              rel={isExternalLink(href) ? "noopener noreferrer nofollow" : "noopener noreferrer"}
+              {...props}
+            />
+          ),
         }}
       >
         {markdown}

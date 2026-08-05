@@ -35,13 +35,24 @@ export async function generateMetadata({
   const { slug } = await params;
   const article = await getArticle(slug);
   if (!article) return { title: "Article not found" };
+  const articleUrl = `${site.url}/blog/${slug}`;
   return {
     title: article.title,
     description: article.description ?? undefined,
+    alternates: {
+      canonical: articleUrl,
+    },
     openGraph: {
       title: article.title,
       description: article.description ?? undefined,
       type: "article",
+      url: articleUrl,
+      images: article.image ? [resolveArticleImage(article.image) as string] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description: article.description ?? undefined,
       images: article.image ? [resolveArticleImage(article.image) as string] : undefined,
     },
   };
@@ -58,8 +69,64 @@ export default async function ArticlePage({
 
   const related = await getRelatedArticles(slug, 3);
 
+  const articleUrl = `${site.url}/blog/${slug}`;
+  const articleImage = article.image ? resolveArticleImage(article.image) : undefined;
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        headline: article.title,
+        description: article.description,
+        datePublished: article.date,
+        dateModified: article.date,
+        author: {
+          "@type": "Organization",
+          name: site.name,
+          url: site.url,
+        },
+        publisher: {
+          "@type": "Organization",
+          name: site.name,
+          url: site.url,
+        },
+        mainEntityOfPage: articleUrl,
+        image: articleImage,
+        url: articleUrl,
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: site.url,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Blog",
+            item: `${site.url}/blog`,
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: article.title,
+            item: articleUrl,
+          },
+        ],
+      },
+    ],
+  };
+
   return (
     <article>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Hero */}
       <header className="relative isolate overflow-hidden border-b border-border pt-16">
         {article.image ? (

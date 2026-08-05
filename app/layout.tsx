@@ -37,12 +37,18 @@ export const metadata: Metadata = {
     "importers",
     "distributors",
   ],
+  alternates: {
+    canonical: site.url,
+  },
   openGraph: {
     type: "website",
     title: `${site.name} — ${site.tagline}`,
     description: site.description,
     url: site.url,
     siteName: site.name,
+  },
+  twitter: {
+    card: "summary_large_image",
   },
 };
 
