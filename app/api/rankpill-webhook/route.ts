@@ -129,10 +129,10 @@ export async function POST(request: Request) {
   // The image field: prefer R2 URL, fall back to original URL (remote), then local path
   // NOTE: local path (/blog/...) will NOT persist on Vercel's ephemeral filesystem,
   //       so it should only be used as last resort. Original URL is more reliable.
+  // IMPORTANT: Never store a local path as the image field — it won't work on Vercel.
   const imageField =
     r2ImageUrl ||
-    article.featured_image ||
-    null;
+    (article.featured_image && !article.featured_image.startsWith("/") ? article.featured_image : null);
 
   // ── Step 2: Upsert into NeonDB ─────────────────────────────────────────
   try {

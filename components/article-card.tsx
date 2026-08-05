@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRightIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { formatDate, readingTime, type Article } from "@/lib/articles";
+import { formatDate, readingTime, resolveArticleImage, type Article } from "@/lib/articles";
 
 export function ArticleCard({
   article,
@@ -25,7 +25,7 @@ export function ArticleCard({
       <div className="relative aspect-[16/10] overflow-hidden bg-muted">
         {article.image ? (
           <Image
-            src={article.image}
+            src={resolveArticleImage(article.image)}
             alt={article.title}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

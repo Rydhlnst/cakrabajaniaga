@@ -104,6 +104,23 @@ export function readingTime(markdown: string): number {
   return Math.max(1, Math.round(words / 200));
 }
 
+/**
+ * Resolve an article image path to a usable URL.
+ *
+ * On Vercel the local filesystem is ephemeral, so `/blog/…` paths stored in the
+ * DB no longer exist after deploy.  This helper detects those local paths and
+ * rewrites them to the Cloudflare R2 public URL so images keep working.
+ * Remote URLs (R2, Supabase, etc.) are returned unchanged.
+ */
+export function resolveArticleImage(image: string | null | undefined): string {
+  if (!image) return "";
+  if (image.startsWith("/blog/")) {
+    const r2 = process.env.R2_PUBLIC_URL;
+    if (r2) return `${r2}${image}`;
+  }
+  return image;
+}
+
 function toIsoDate(value: string | null): string | null {
   if (!value) return null;
   const d = new Date(value);

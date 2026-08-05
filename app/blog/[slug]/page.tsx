@@ -10,6 +10,7 @@ import {
   getArticle,
   getRelatedArticles,
   readingTime,
+  resolveArticleImage,
 } from "@/lib/articles";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
@@ -41,7 +42,7 @@ export async function generateMetadata({
       title: article.title,
       description: article.description ?? undefined,
       type: "article",
-      images: article.image ? [article.image] : undefined,
+      images: article.image ? [resolveArticleImage(article.image) as string] : undefined,
     },
   };
 }
@@ -64,7 +65,7 @@ export default async function ArticlePage({
         {article.image ? (
           <>
             <Image
-              src={article.image}
+              src={resolveArticleImage(article.image)}
               alt={article.title}
               fill
               priority

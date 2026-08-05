@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
 
-import { formatDate, getPagedArticles, readingTime } from "@/lib/articles";
+import { formatDate, getPagedArticles, readingTime, resolveArticleImage } from "@/lib/articles";
 import { ArticleCard } from "@/components/article-card";
 import { BlogPagination } from "@/components/blog-pagination";
 
@@ -60,7 +60,7 @@ export default async function BlogPage({
             <div className="relative aspect-[16/10] overflow-hidden bg-muted lg:aspect-auto">
               {featured.image ? (
                 <Image
-                  src={featured.image}
+                  src={resolveArticleImage(featured.image)}
                   alt={featured.title}
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
